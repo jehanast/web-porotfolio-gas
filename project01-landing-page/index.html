@@ -1,45 +1,48 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dev Portfolio | Amelia </title>
-<?!= include('style'); ?>
-<link href="https://fonts.googleapis.com" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | [Nama Kamu]</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
-<nav>
-<div class="logo"><span>Amelia</span></div>
-<ul class="nav-links">
-<li><a href="#skills">Skil</a></li>
-<li><a href="#projects">Proyek</a></li>
-<li><a href="https://github.com" target="_blank">GitHub</a></li>
-<li><a href="#contact" class="btn-small">Hire Me</a></li>
-</ul>
-</nav>
-<header class="hero">
-<div class="hero-text">
-<span class="badge">Fresh Graduate S1 Informatika</span>
-<h1>Membangun Solusi Digital dengan <span class="highlight">Kode yang Clean.</span></h1>
-<p>Halo! Saya <strong>Amelia</strong>. Saya pengembang web yang memadukan teori akademik dengan praktik nyata di setiap proyek.</p>
-<div class="cta">
-<a href="#projects" class="btn-main">Lihat Project</a>
-<a href="[Link-CV-Anda]" class="btn-outline">Unduh CV</a>
-</div>
-</div>
-</header><section id="skills" class="skills">
-<h3>Tech Stack Favorit</h3>
-<div class="skill-grid">
-<div class="skill-card">HTML/CSS</div>
-<div class="skill-card">JavaScript</div>
-<div class="skill-card">React.js</div>
-<div class="skill-card">Tailwind</div>
-<div class="skill-card">Node.js</div>
-<div class="skill-card">MySQL</div>
-</div>
-</section>
+<body class="bg-slate-900 text-slate-100 scroll-smooth">
 
-<?!= include('script'); ?>
+    <nav class="fixed w-full z-50 bg-slate-900/80 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+                DevPort.
+            </div>
+            <div class="hidden md:flex space-x-8 text-sm font-medium">
+                <a href="#home" class="hover:text-indigo-400 transition">Home</a>
+                <a href="#projects" class="hover:text-indigo-400 transition">Projects</a>
+                <a href="#contact" class="px-4 py-2 bg-indigo-600 rounded-full hover:bg-indigo-500 transition">Contact Me</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="min-h-screen flex items-center justify-center pt-20">
+        <div class="max-w-4xl text-center px-6">
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+                Building digital <span class="text-indigo-500">experiences</span>.
+            </h1>
+            <p class="text-slate-400 text-lg mb-10">Hi, I'm [Nama Kamu]. A Fullstack Developer.</p>
+            <button id="cta-button" class="px-8 py-4 bg-white text-slate-900 font-bold rounded-xl hover:bg-slate-200 transition">
+                Say Hello!
+            </button>
+        </div>
+    </section>
+
+    <section id="projects" class="py-24 bg-slate-800/50">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <h3 class="text-3xl font-bold mb-12">My Projects</h3>
+            <div class="grid md:grid-cols-2 gap-8" id="project-container">
+                </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
 </body>
 </html>
-  
