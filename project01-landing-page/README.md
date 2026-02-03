@@ -32,7 +32,7 @@ Saya adalah seorang [Pekerjaan/Status] yang berfokus pada [Bidang Spesifik]. Say
 
 ---
 ##LIVE DEMO
-(https://script.google.com/macros/s/AKfycbxT_HPCqzqw0h0RuukPp3tW78cd7BLpxIyQm7e0JidXCKUZhfnvXPtnlUOOA3BiNWg18Q/exec)
+(https://script.google.com/macros/s/AKfycbzIEd_JPEnXJOOJrhuJ2XhrcUp_-mTiSEEzSoiil9cy2NOL6MZo2ZrRq8eUwG4YG3cksg/exec)
 ## 📫 Mari Terhubung!
 Saya selalu terbuka untuk diskusi mengenai teknologi atau peluang kolaborasi.
 
