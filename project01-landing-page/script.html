@@ -1,14 +1,19 @@
-<script>
+// Contoh Logika Sederhana
 document.addEventListener('DOMContentLoaded', () => {
-console.log("Portfolio Loaded!");
-// Efek Scroll Halus
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-anchor.addEventListener('click', function (e) {
-e.preventDefault();
-document.querySelector(this.getAttribute('href')).scrollIntoView({
-behavior: 'smooth'
+    const ctaButton = document.getElementById('cta-button');
+
+    // Event listener untuk tombol CTA
+    ctaButton.addEventListener('click', () => {
+        alert('Terima kasih sudah berkunjung! Silakan hubungi saya di email@example.com');
+    });
+
+    // Efek Navbar transparan saat di scroll
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            nav.classList.add('shadow-xl');
+        } else {
+            nav.classList.remove('shadow-xl');
+        }
+    });
 });
-});
-});
-});
-</script>
