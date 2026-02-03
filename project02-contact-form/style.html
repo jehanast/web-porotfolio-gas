@@ -1,0 +1,130 @@
+<style>
+/* --- Google Font & Reset --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #0f172a; /* Slate 900 */
+    color: #f8fafc;
+    line-height: 1.6;
+}
+
+/* --- Glassmorphism Form Card --- */
+.glass-form {
+    background: rgba(30, 41, 59, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* --- Floating Label Logic --- */
+.input-group {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.input-group input, 
+.input-group textarea {
+    width: 100%;
+    padding: 12px 0;
+    font-size: 16px;
+    color: #fff;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #334155;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.input-group label {
+    position: absolute;
+    top: 12px;
+    left: 0;
+    color: #94a3b8;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+/* Animasi Label Saat Fokus atau Input Terisi */
+.input-group input:focus ~ label,
+.input-group input:not(:placeholder-shown) ~ label,
+.input-group textarea:focus ~ label,
+.input-group textarea:not(:placeholder-shown) ~ label {
+    top: -20px;
+    font-size: 12px;
+    color: #818cf8; /* Indigo 400 */
+    font-weight: 600;
+}
+
+/* Garis Animasi Bawah (Bar) */
+.input-group .bar {
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+.input-group .bar::before {
+    content: '';
+    height: 2px;
+    width: 0;
+    bottom: 0;
+    position: absolute;
+    background: linear-gradient(to right, #6366f1, #06b6d4);
+    transition: 0.4s ease;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.input-group input:focus ~ .bar::before,
+.input-group textarea:focus ~ .bar::before {
+    width: 100%;
+}
+
+/* --- Button Styling --- */
+.submit-button {
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.submit-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+.submit-button:disabled {
+    cursor: not-allowed;
+    filter: grayscale(0.5);
+}
+
+/* --- Notification Overlay --- */
+#statusOverlay {
+    z-index: 50;
+}
+
+/* --- Reveal Animation --- */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+/* --- Status Boxes --- */
+.bg-success { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+.bg-error { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #0f172a; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #4f46e5; }
+</style>
