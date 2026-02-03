@@ -26,15 +26,6 @@ Saya adalah seorang [Pekerjaan/Status] yang berfokus pada [Bidang Spesifik]. Say
 
 ---
 
-## 📂 Proyek Unggulan
-
-| Nama Proyek | Deskripsi Singkat | Tech Stack | Link |
-| :--- | :--- | :--- | :--- |
-| **E-Commerce App** | Platform belanja online dengan fitur payment gateway. | React, Node.js, MongoDB | [Demo/Repo](#) |
-| **Portfolio v1** | Website portofolio pribadi pertama saya. | Next.js, Tailwind CSS | [Demo/Repo](#) |
-| **Data Tracker** | Dashboard visualisasi data real-time. | Python, Streamlit | [Demo/Repo](#) |
-
----
 
 ## 📊 Statistik GitHub
 ![Statistik GitHub Anda](https://github-readme-stats.vercel.app/api?username=[USERNAME-KAMU]&show_icons=true&theme=radical)
