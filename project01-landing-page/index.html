@@ -3,69 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact | Amelia</title>
-    <base target="_top">
-    
+    <title>Portfolio | Amelia</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <?!= include('style'); ?>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-slate-900 text-slate-100 flex items-center justify-center min-h-screen p-4 md:p-8">
+<body class="bg-slate-900 text-slate-100 scroll-smooth">
 
-    <div class="max-w-xl w-full reveal">
-        
-        <div class="text-center mb-10">
-            <h2 class="text-4xl font-extrabold bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
-                Let's Connect
-            </h2>
-            <p class="text-slate-400 mt-3">Silakan kirim pesan, saya akan segera membalasnya.</p>
+    <nav class="fixed w-full z-50 bg-slate-900/80 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+                Amelia
+            </div>
+            <div class="hidden md:flex space-x-8 text-sm font-medium">
+                <a href="#home" class="hover:text-indigo-400 transition">Home</a>
+                <a href="#projects" class="hover:text-indigo-400 transition">Projects</a>
+                <a href="#contact" class="px-4 py-2 bg-indigo-600 rounded-full hover:bg-indigo-500 transition">Contact Me</a>
+            </div>
         </div>
+    </nav>
 
-        <div class="glass-form p-8 md:p-12 relative overflow-hidden border border-slate-800 rounded-[2.5rem] bg-slate-800/40 backdrop-blur-xl">
-            
-            <form id="contactForm" class="space-y-8">
-                <div class="input-group">
-                    <input type="text" name="name" id="name" required placeholder=" ">
-                    <label for="name">Full Name</label>
-                    <div class="bar"></div>
-                </div>
-
-                <div class="input-group">
-                    <input type="email" name="email" id="email" required placeholder=" ">
-                    <label for="email">Email Address</label>
-                    <div class="bar"></div>
-                </div>
-
-                <div class="input-group">
-                    <textarea name="message" id="message" rows="4" required placeholder=" "></textarea>
-                    <label for="message">Your Message</label>
-                    <div class="bar"></div>
-                </div>
-
-                <button type="submit" id="submitBtn" class="submit-button w-full py-4 bg-indigo-600 rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-indigo-500 transition-all active:scale-95 shadow-lg shadow-indigo-500/20">
-                    <span>Send Message</span>
-                    <i class="fas fa-paper-plane text-sm"></i>
-                </button>
-            </form>
-
-            <div id="statusOverlay" class="absolute inset-0 bg-slate-900/95 flex flex-col items-center justify-center text-center p-8 translate-y-full transition-transform duration-500 ease-in-out z-10">
-                <div id="statusIcon" class="w-20 h-20 rounded-full flex items-center justify-center mb-6">
-                    </div>
-                <h4 id="statusTitle" class="text-2xl font-bold text-white mb-2"></h4>
-                <p id="statusMessage" class="text-slate-400 text-sm leading-relaxed mb-8"></p>
-                <button type="button" onclick="closeStatus()" class="px-6 py-2 border border-slate-700 rounded-full text-indigo-400 font-semibold hover:bg-slate-800 transition">
-                    <i class="fas fa-arrow-left mr-2"></i> Kembali
+   <section id="home" class="min-h-screen flex items-center justify-center pt-20">
+        <div class="max-w-4xl text-center px-6 reveal">
+            <h2 class="text-indigo-400 font-semibold tracking-widest uppercase mb-4">Available for new opportunities</h2>
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+                I am a <br class="md:hidden">
+                <span id="typing-text" class="text-indigo-500"></span>
+                <span class="cursor">|</span>
+            </h1>
+            <p class="text-slate-400 text-lg md:text-xl mb-10 max-w-2xl mx-auto">
+                Hi, I'm <span class="text-white font-semibold">Amelia</span>. I design and build high-quality web applications with a focus on user experience.
+            </p>
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <a href="#projects" class="px-8 py-4 bg-white text-slate-900 font-bold rounded-xl hover:bg-slate-200 transition">
+                    View My Work
+                </a>
+                <button id="cta-button" class="px-8 py-4 border border-slate-700 font-bold rounded-xl hover:bg-slate-800 transition">
+                    Contact Me
                 </button>
             </div>
         </div>
+    </section>
 
-        <p class="text-center text-slate-600 text-xs mt-8 uppercase tracking-widest font-medium">
-            &copy; 2024 Amelia &bull; Secured with Google Apps Script
-        </p>
-    </div>
+    <section id="projects" class="py-24 bg-slate-800/50">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <h3 class="text-3xl font-bold mb-12">My Projects</h3>
+            <div class="grid md:grid-cols-2 gap-8" id="project-container">
+                </div>
+        </div>
+    </section>
 
-    <?!= include('script'); ?>
-
+    <script src="script.js"></script>
 </body>
 </html>
