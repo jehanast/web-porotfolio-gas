@@ -1,0 +1,90 @@
+<script>
+// 1. Inisialisasi Elemen
+const contactForm = document.getElementById('contactForm');
+const submitBtn = document.getElementById('submitBtn');
+const overlay = document.getElementById('statusOverlay');
+const iconBox = document.getElementById('statusIcon');
+const title = document.getElementById('statusTitle');
+const message = document.getElementById('statusMessage');
+
+// 2. Event Listener Submit
+contactForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Persiapan State Loading
+    submitBtn.disabled = true;
+    submitBtn.classList.add('opacity-80', 'cursor-not-allowed');
+    
+    // Trik Psikologis: Update teks secara bertahap
+    let steps = ["Menghubungkan...", "Mengirim Pesan...", "Menyimpan ke Database..."];
+    let stepIdx = 0;
+    submitBtn.innerHTML = `<i class="fas fa-circle-notch fa-spin mr-2"></i> <span>${steps[0]}</span>`;
+    
+    const interval = setInterval(() => {
+        stepIdx++;
+        if(stepIdx < steps.length) {
+            const span = submitBtn.querySelector('span');
+            if(span) span.innerText = steps[stepIdx];
+        }
+    }, 1000);
+
+    // Kirim Data ke Server (Code.gs)
+    // Pastikan di Code.gs nama fungsinya adalah processForm
+    google.script.run
+        .withSuccessHandler((res) => {
+            clearInterval(interval);
+            showSuccess();
+        })
+        .withFailureHandler((err) => {
+            clearInterval(interval);
+            showError(err);
+        })
+        .processForm(this); // Mengirim seluruh form object
+});
+
+// 3. Fungsi Menampilkan Overlay Sukses
+function showSuccess() {
+    setTimeout(() => {
+        // Reset Tombol
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span>Send Message</span><i class="fas fa-paper-plane ml-2"></i>';
+        submitBtn.classList.remove('opacity-80', 'cursor-not-allowed');
+
+        // Set Isi Overlay
+        iconBox.className = "w-20 h-20 rounded-full flex items-center justify-center mb-6 bg-emerald-500/20 text-emerald-500 shadow-lg shadow-emerald-500/10";
+        iconBox.innerHTML = '<i class="fas fa-check text-3xl animate-bounce"></i>';
+        title.innerText = "Berhasil Terkirim!";
+        title.className = "text-2xl font-bold text-white mb-2";
+        message.innerText = "Terima kasih, Amelia sudah menerima pesanmu. Cek email kamu secara berkala ya!";
+        
+        // Animasi Muncul (Slide Up)
+        overlay.style.transform = 'translateY(0)';
+    }, 500);
+}
+
+// 4. Fungsi Menampilkan Overlay Gagal
+function showError(err) {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = '<span>Send Message</span><i class="fas fa-paper-plane ml-2"></i>';
+    
+    iconBox.className = "w-20 h-20 rounded-full flex items-center justify-center mb-6 bg-red-500/20 text-red-500";
+    iconBox.innerHTML = '<i class="fas fa-exclamation-triangle text-3xl"></i>';
+    title.innerText = "Oops! Gagal";
+    message.innerText = "Terjadi kendala teknis. Silakan coba lagi atau hubungi Amelia via LinkedIn.";
+    
+    overlay.style.transform = 'translateY(0)';
+}
+
+// 5. Fungsi Menutup Overlay & Reset Form
+function closeStatus() {
+    overlay.style.transform = 'translateY(100%)';
+    setTimeout(() => {
+        contactForm.reset();
+        // Reset posisi floating label kembali ke bawah
+        const labels = contactForm.querySelectorAll('label');
+        labels.forEach(label => {
+            label.removeAttribute('style'); // Mengembalikan ke style asli CSS
+        });
+    }, 500);
+}
+</script>
