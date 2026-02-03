@@ -1,130 +1,131 @@
-<style>
-/* --- Google Font & Reset --- */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+/* --- Variables & Reset --- */
+:root {
+    --primary: #6366f1; /* Indigo 500 */
+    --secondary: #06b6d4; /* Cyan 500 */
+    --bg-dark: #0f172a;
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background-color: #0f172a; /* Slate 900 */
-    color: #f8fafc;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-main);
     line-height: 1.6;
+    overflow-x: hidden;
 }
 
-/* --- Glassmorphism Form Card --- */
-.glass-form {
-    background: rgba(30, 41, 59, 0.4);
+/* --- Responsive Typography --- */
+h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); }
+h2 { font-size: clamp(2rem, 5vw, 3rem); }
+
+/* --- Glassmorphism Effect --- */
+.glass {
+    background: var(--card-bg);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1.5rem;
 }
 
-/* --- Floating Label Logic --- */
-.input-group {
-    position: relative;
-    margin-bottom: 2rem;
-}
-
-.input-group input, 
-.input-group textarea {
-    width: 100%;
-    padding: 12px 0;
-    font-size: 16px;
-    color: #fff;
-    background: transparent;
-    border: none;
-    border-bottom: 2px solid #334155;
-    outline: none;
-    transition: all 0.3s ease;
-}
-
-.input-group label {
-    position: absolute;
-    top: 12px;
-    left: 0;
-    color: #94a3b8;
-    pointer-events: none;
-    transition: all 0.3s ease;
-}
-
-/* Animasi Label Saat Fokus atau Input Terisi */
-.input-group input:focus ~ label,
-.input-group input:not(:placeholder-shown) ~ label,
-.input-group textarea:focus ~ label,
-.input-group textarea:not(:placeholder-shown) ~ label {
-    top: -20px;
-    font-size: 12px;
-    color: #818cf8; /* Indigo 400 */
-    font-weight: 600;
-}
-
-/* Garis Animasi Bawah (Bar) */
-.input-group .bar {
-    position: relative;
-    display: block;
-    width: 100%;
-}
-
-.input-group .bar::before {
-    content: '';
-    height: 2px;
-    width: 0;
-    bottom: 0;
-    position: absolute;
-    background: linear-gradient(to right, #6366f1, #06b6d4);
-    transition: 0.4s ease;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.input-group input:focus ~ .bar::before,
-.input-group textarea:focus ~ .bar::before {
-    width: 100%;
-}
-
-/* --- Button Styling --- */
-.submit-button {
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.submit-button:hover:not(:disabled) {
-    transform: translateY(-2px);
-    filter: brightness(1.1);
-}
-
-.submit-button:disabled {
-    cursor: not-allowed;
-    filter: grayscale(0.5);
-}
-
-/* --- Notification Overlay --- */
-#statusOverlay {
-    z-index: 50;
-}
-
-/* --- Reveal Animation --- */
+/* --- Custom Animations --- */
 @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.reveal {
+.animate-fade {
     animation: fadeInUp 0.8s ease forwards;
 }
 
-/* --- Status Boxes --- */
-.bg-success { background: rgba(16, 185, 129, 0.2); color: #10b981; }
-.bg-error { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+/* --- Project Cards (Responsive Grid) --- */
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem 0;
+}
 
-/* Custom Scrollbar */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: #0f172a; }
-::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #4f46e5; }
-</style>
+.project-card {
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.project-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--primary);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* --- Buttons --- */
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    padding: 0.8rem 2rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    transition: var(--transition);
+    display: inline-block;
+    text-decoration: none;
+    color: white;
+}
+
+.btn-primary:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+}
+
+/* --- Responsive Media Queries --- */
+@media (max-width: 768px) {
+    nav {
+        padding: 1rem;
+    }
+    
+    .hero-content {
+        text-align: center;
+        padding: 0 1rem;
+    }
+
+    .project-grid {
+        grid-template-columns: 1fr; /* Full width di HP */
+    }
+}
+
+/* --- Custom Scrollbar --- */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--bg-dark); }
+::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+/* Efek Kursor Mengetik */
+.cursor {
+    font-weight: bold;
+    color: #6366f1; /* Indigo-500 */
+    animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Tambahan agar section Hero punya background gradien halus */
+#home {
+    background: radial-gradient(circle at 50% 50%, rgba(79, 70, 229, 0.1) 0%, transparent 50%);
+}
