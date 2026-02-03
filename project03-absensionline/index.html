@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Absensi | Amelia</title>
+    <base target="_top">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <?!= include('style'); ?>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex items-center justify-center p-4">
+
+    <div id="loginSection" class="max-w-md w-full reveal">
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-indigo-600 rounded-2xl mb-4 shadow-lg shadow-indigo-500/20">
+                <i class="fas fa-user-graduate text-2xl text-white"></i>
+            </div>
+            <h2 class="text-3xl font-bold">Student Login</h2>
+            <p class="text-slate-400 mt-2">Masukkan NIM Anda untuk mengakses absensi.</p>
+        </div>
+
+        <div class="glass-form p-8 rounded-[2rem] border border-slate-800 bg-slate-800/40 backdrop-blur-xl">
+            <div class="input-group">
+                <input type="text" id="nim" required placeholder=" ">
+                <label for="nim">Nomor Induk Mahasiswa</label>
+                <div class="bar"></div>
+            </div>
+            <button onclick="login()" id="loginBtn" class="w-full py-4 bg-indigo-600 hover:bg-indigo-500 rounded-xl font-bold transition-all active:scale-95 flex items-center justify-center gap-2">
+                <span>Sign In</span>
+                <i class="fas fa-sign-in-alt"></i>
+            </button>
+        </div>
+    </div>
+
+    <div id="absensiSection" class="hidden w-full max-w-6xl animate-fade-in">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+            <div>
+                <h2 class="text-2xl font-bold">Selamat Datang, <span id="userNama" class="text-indigo-400">-</span></h2>
+                <p class="text-slate-400 text-sm" id="userProdi">Program Studi - NIM</p>
+            </div>
+            <button onclick="logout()" class="px-6 py-2 bg-red-500/10 text-red-500 border border-red-500/20 rounded-lg hover:bg-red-500 hover:text-white transition-all font-medium">
+    <i class="fas fa-power-off mr-2"></i> Logout
+</button>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-1 space-y-6">
+                <div class="glass-form p-6 rounded-3xl border border-slate-800">
+                    <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+                        <i class="fas fa-edit text-indigo-400"></i> Form Absensi
+                    </h3>
+                    <div class="space-y-6">
+                        <div class="input-group">
+                            <input type="text" id="makul" required placeholder=" ">
+                            <label for="makul">Mata Kuliah</label>
+                            <div class="bar"></div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs text-slate-400 ml-1">Status Kehadiran</label>
+                            <select id="status" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 outline-none focus:border-indigo-500 transition">
+                                <option value="Hadir">Hadir</option>
+                                <option value="Izin">Izin</option>
+                                <option value="Alpha">Alpha</option>
+                            </select>
+                        </div>
+                        <button onclick="submitAbsensi()" id="absensiBtn" class="w-full py-4 bg-emerald-600 hover:bg-emerald-500 rounded-xl font-bold transition-all shadow-lg shadow-emerald-500/20">
+                            Submit Absen
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2">
+                <div class="glass-form rounded-3xl border border-slate-800 overflow-hidden">
+                    <div class="p-6 border-b border-slate-800 flex justify-between items-center">
+                        <h3 class="font-bold">Riwayat Absensi Terbaru</h3>
+                        <span class="text-xs bg-indigo-500/20 text-indigo-400 px-3 py-1 rounded-full">Live Update</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-800/50 text-slate-400 text-xs uppercase tracking-wider">
+                                    <th class="px-6 py-4 font-semibold">Mahasiswa</th>
+                                    <th class="px-6 py-4 font-semibold">Mata Kuliah</th>
+                                    <th class="px-6 py-4 font-semibold">Waktu</th>
+                                    <th class="px-6 py-4 font-semibold">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="absensiBody" class="text-sm divide-y divide-slate-800">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?!= include('script'); ?>
+</body>
+</html>
