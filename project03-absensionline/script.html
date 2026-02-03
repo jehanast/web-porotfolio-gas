@@ -1,0 +1,143 @@
+<script>
+let currentUser = null;
+
+// Fungsi Login yang diperkuat
+function login() {
+    const nimInput = document.getElementById('nim');
+    const btn = document.getElementById('loginBtn');
+    const nimValue = nimInput.value.trim();
+    
+    if (!nimValue) {
+        alert("Silakan masukkan NIM!");
+        return;
+    }
+
+    // Visual loading
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Memproses...';
+
+    // Memanggil fungsi 'login' di Code.gs
+    google.script.run
+        .withSuccessHandler(function(res) {
+            console.log("Respon Server:", res); // Cek ini di Console F12
+            
+            if (res && res.status === 'success') {
+                currentUser = res;
+                showDashboard();
+            } else {
+                alert(res.message || "NIM tidak ditemukan!");
+                resetLoginButton();
+            }
+        })
+        .withFailureHandler(function(err) {
+            console.error("Gagal koneksi ke server:", err);
+            alert("Koneksi gagal: " + err);
+            resetLoginButton();
+        })
+        .login(nimValue); 
+}
+
+function resetLoginButton() {
+    const btn = document.getElementById('loginBtn');
+    btn.disabled = false;
+    btn.innerHTML = '<span>Sign In</span><i class="fas fa-sign-in-alt"></i>';
+}
+
+function showDashboard() {
+    document.getElementById('loginSection').classList.add('hidden');
+    const dash = document.getElementById('absensiSection');
+    dash.classList.remove('hidden');
+    
+    document.getElementById('userNama').innerText = currentUser.nama;
+    document.getElementById('userProdi').innerText = currentUser.prodi + " • " + currentUser.nim;
+    
+    loadAbsensi();
+}
+
+function submitAbsensi() {
+    const makul = document.getElementById('makul').value;
+    const status = document.getElementById('status').value;
+    const btn = document.getElementById('absensiBtn');
+
+    if (!makul) {
+        alert("Pilih/Isi Mata Kuliah!");
+        return;
+    }
+
+    btn.disabled = true;
+    btn.innerText = "Mengirim...";
+
+    const data = {
+        nim: currentUser.nim,
+        makul: makul,
+        status: status
+    };
+
+    google.script.run
+        .withSuccessHandler(function(res) {
+            alert(res.message);
+            document.getElementById('makul').value = "";
+            btn.disabled = false;
+            btn.innerText = "Submit Absen";
+            loadAbsensi();
+        })
+        .submitAbsensi(data);
+}
+
+function loadAbsensi() {
+    const tbody = document.getElementById('absensiBody');
+    tbody.innerHTML = '<tr><td colspan="4" class="px-6 py-4 text-center">Memuat data...</td></tr>';
+
+    google.script.run
+        .withSuccessHandler(function(data) {
+            tbody.innerHTML = "";
+            if (!data || data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" class="px-6 py-4 text-center">Belum ada data.</td></tr>';
+                return;
+            }
+            data.forEach(function(item) {
+                const badgeColor = item.status === 'Hadir' ? 'bg-emerald-500/10 text-emerald-500' : 
+                                 item.status === 'Izin' ? 'bg-amber-500/10 text-amber-500' : 'bg-red-500/10 text-red-500';
+                
+                const row = `
+                    <tr class="hover:bg-slate-800/30 transition border-b border-slate-800">
+                        <td class="px-6 py-4">
+                            <div class="font-semibold text-white">${item.nama}</div>
+                            <div class="text-xs text-slate-500">${item.nim}</div>
+                        </td>
+                        <td class="px-6 py-4 text-slate-300 text-sm">${item.makul}</td>
+                        <td class="px-6 py-4 text-slate-400 text-xs">${item.jam}</td>
+                        <td class="px-6 py-4">
+                            <span class="px-3 py-1 rounded-full text-xs font-bold ${badgeColor}">
+                                ${item.status}
+                            </span>
+                        </td>
+                    </tr>`;
+                tbody.innerHTML += row;
+            });
+        })
+        .getAbsensiList();
+}
+
+function logout() {
+    // 1. Hapus data user dari memori browser
+    currentUser = null;
+
+    // 2. Sembunyikan Dashboard, Tampilkan Login
+    document.getElementById('absensiSection').classList.add('hidden');
+    document.getElementById('loginSection').classList.remove('hidden');
+
+    // 3. Bersihkan input NIM agar tidak tertinggal data lama
+    const nimInput = document.getElementById('nim');
+    if (nimInput) {
+        nimInput.value = '';
+        // Reset posisi label melayang jika perlu
+        nimInput.dispatchEvent(new Event('input')); 
+    }
+
+    // 4. Reset tombol login ke kondisi awal
+    resetLoginButton();
+    
+    console.log("Logout berhasil, session dibersihkan.");
+}
+</script>
