@@ -11,6 +11,7 @@ Aplikasi web sederhana berbasis Google Apps Script untuk pengajuan izin mahasisw
 - **Insert & Riwayat**: Google Sheets
 - **Frontend**: HTML + JS (Apps Script)
 ## Struktur Data
+LINK DEMO (https://script.google.com/macros/s/AKfycbxo-5EoFSTsX8-Ff2fM40ojGgof8FFuLj40CkFB6FMwQJB1W369kmJWnbaXANC1i4NyTg/exec)
 ### BigQuery
 Dataset: `app_pengajuan`
 Table: `data_mahasiswa`
