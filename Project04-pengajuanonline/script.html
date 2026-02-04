@@ -1,0 +1,159 @@
+<script>
+let user = null;
+
+/**
+ * =====================
+ * LOGIN HANDLER
+ * =====================
+ */
+function login() {
+  const nimInput = document.getElementById('nim');
+  const btn = document.getElementById('loginBtn');
+  const nim = nimInput.value.trim();
+  
+  if (!nim) {
+    showLoginNotif('NIM wajib diisi!', 'error');
+    return;
+  }
+
+  // Loading State
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Verifying...';
+
+  google.script.run
+    .withSuccessHandler(res => {
+      if (res.status === 'success') {
+        user = res;
+        document.getElementById('login').classList.add('hidden');
+        document.getElementById('app').classList.remove('hidden');
+        document.getElementById('info').innerHTML = `Hi, <span class="text-indigo-400">${res.nama}</span> 👋`;
+        loadRiwayat();
+      } else {
+        showLoginNotif(res.message, 'error');
+        resetLoginButton();
+      }
+    })
+    .withFailureHandler(err => {
+      showLoginNotif('Server Error: Hubungi Admin', 'error');
+      resetLoginButton();
+    })
+    .loginMahasiswa(nim);
+}
+
+function resetLoginButton() {
+  const btn = document.getElementById('loginBtn');
+  btn.disabled = false;
+  btn.innerHTML = '<span>Verify Access</span><i class="fas fa-arrow-right text-sm"></i>';
+}
+
+/**
+ * =====================
+ * SUBMIT PENGAJUAN
+ * =====================
+ */
+function kirimPengajuan() {
+  if (!user) {
+    alert('Sesi berakhir, silakan login ulang.');
+    logout();
+    return;
+  }
+
+  const jenis = document.getElementById('jenis').value;
+  const ket = document.getElementById('ket').value.trim();
+  const btn = document.getElementById('submitBtn');
+
+  if (!ket) {
+    showNotif('Keterangan pengajuan tidak boleh kosong!', 'error');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i> Mengirim...';
+
+  const data = {
+    nim: user.nim,
+    jenis: jenis,
+    keterangan: ket
+  };
+
+  google.script.run
+    .withSuccessHandler(res => {
+      btn.disabled = false;
+      btn.innerHTML = '<span>Kirim Dokumen</span><i class="fas fa-paper-plane"></i>';
+      
+      if (res.status === 'success') {
+        showNotif(res.message, 'success');
+        document.getElementById('ket').value = '';
+        document.getElementById('ket').dispatchEvent(new Event('input')); // Reset floating label
+        loadRiwayat();
+      } else {
+        showNotif(res.message, 'error');
+      }
+    })
+    .withFailureHandler(err => {
+      btn.disabled = false;
+      btn.innerHTML = '<span>Kirim Dokumen</span><i class="fas fa-paper-plane"></i>';
+      showNotif('Gagal terhubung ke server', 'error');
+    })
+    .submitPengajuan(data);
+}
+
+/**
+ * =====================
+ * UI HELPERS (Notif & Table)
+ * =====================
+ */
+function showNotif(msg, type) {
+  const notif = document.getElementById('notif');
+  notif.className = `mt-4 p-3 rounded-xl text-xs font-bold animate-fade-in ${type === 'success' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-red-500/10 text-red-500'}`;
+  notif.innerText = msg;
+  setTimeout(() => { notif.innerText = ''; notif.className = ''; }, 4000);
+}
+
+function showLoginNotif(msg, type) {
+  const notif = document.getElementById('loginNotif');
+  notif.className = `mt-4 text-sm font-medium ${type === 'success' ? 'text-emerald-500' : 'text-red-400'}`;
+  notif.innerText = msg;
+}
+
+function loadRiwayat() {
+  const tbody = document.getElementById('riwayat');
+  tbody.innerHTML = '<tr><td colspan="4" class="px-8 py-10 text-center text-slate-500"><i class="fas fa-sync fa-spin mr-2"></i> Mengambil data...</td></tr>';
+
+  google.script.run
+    .withSuccessHandler(data => {
+      tbody.innerHTML = "";
+      if (!data || data.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" class="px-8 py-10 text-center text-slate-500 text-sm italic">Belum ada riwayat pengajuan.</td></tr>';
+        return;
+      }
+      
+      data.forEach(r => {
+        // Tentukan class badge berdasarkan status
+        const statusClass = r.status.toLowerCase() === 'approved' ? 'approved' : 
+                           r.status.toLowerCase() === 'rejected' ? 'rejected' : 'pending';
+        
+        const row = `
+          <tr class="hover:bg-slate-800/20 transition">
+            <td class="px-8 py-5 text-slate-400 text-xs font-medium">${r.tanggal}</td>
+            <td class="px-8 py-5 font-semibold text-indigo-300 text-sm">${r.jenis}</td>
+            <td class="px-8 py-5 text-slate-400 text-sm max-w-xs truncate">${r.keterangan}</td>
+            <td class="px-8 py-5">
+              <span class="status-pill ${statusClass}">${r.status}</span>
+            </td>
+          </tr>
+        `;
+        tbody.insertAdjacentHTML('beforeend', row);
+      });
+    })
+    .getRiwayatPengajuan(user.nim);
+}
+
+function logout() {
+  user = null;
+  document.getElementById('app').classList.add('hidden');
+  document.getElementById('login').classList.remove('hidden');
+  document.getElementById('nim').value = '';
+  resetLoginButton();
+}
+</script>
